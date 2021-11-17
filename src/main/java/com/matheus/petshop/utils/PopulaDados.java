@@ -8,9 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.matheus.petshop.domain.Categoria;
+import com.matheus.petshop.domain.Cidade;
+import com.matheus.petshop.domain.Especie;
+import com.matheus.petshop.domain.Estado;
+import com.matheus.petshop.domain.Pet;
 import com.matheus.petshop.domain.Produto;
+import com.matheus.petshop.domain.Raca;
 import com.matheus.petshop.repositories.CategoriaRepository;
+import com.matheus.petshop.repositories.CidadeRepository;
+import com.matheus.petshop.repositories.EspecieRepository;
+import com.matheus.petshop.repositories.EstadoRepository;
+import com.matheus.petshop.repositories.PetRepository;
 import com.matheus.petshop.repositories.ProdutoRepository;
+import com.matheus.petshop.repositories.RacaRepository;
 
 @Component
 public class PopulaDados {
@@ -20,6 +30,22 @@ public class PopulaDados {
 	
 	@Autowired
 	ProdutoRepository produtoRepository;
+	
+	@Autowired
+	EspecieRepository especieRepository;
+	
+	@Autowired
+	RacaRepository racaRepository;
+	
+	@Autowired
+	PetRepository petRepository;
+	
+	@Autowired
+	EstadoRepository estadoRepository;
+	
+	@Autowired
+	CidadeRepository cidadeRepository;
+	
 	
 	@PostConstruct
 	public void cadastrar() {
@@ -45,6 +71,35 @@ public class PopulaDados {
 		
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4));
+
+		Especie esp1 = new Especie(null, "Cachorro");
+		Especie esp2 = new Especie(null, "Gato");
+		
+		Raca rac1 = new Raca(null, "Shitzu");
+		Raca rac2 = new Raca(null, "Akita");
+		Raca rac3 = new Raca(null, "Persa");
+		
+		Pet pet1 = new Pet(null, "John", 6, esp1, rac1);
+		Pet pet2 = new Pet(null, "Hanna", 5, esp1, rac2);
+		Pet pet3 = new Pet(null, "Mewth", 8, esp2, rac3);
+		
+		especieRepository.saveAll(Arrays.asList(esp1, esp2));
+		racaRepository.saveAll(Arrays.asList(rac1, rac2, rac3));
+		petRepository.saveAll(Arrays.asList(pet1, pet2, pet3));
+
+		Estado uf1 = new Estado(null, "Minas Gerais");
+		Estado uf2 = new Estado(null, "São Paulo");
+		
+		Cidade c1 = new Cidade(null, "Belo Horizonte", uf1);
+		Cidade c2 = new Cidade(null, "Capelinha", uf1);
+		Cidade c3 = new Cidade(null, "São Paulo", uf2);
+		
+		uf1.getCidades().addAll(Arrays.asList(c1, c2));
+		uf2.getCidades().addAll(Arrays.asList(c3));
+		
+		estadoRepository.saveAll(Arrays.asList(uf1, uf2));
+		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+		
 		
 	}
 }
